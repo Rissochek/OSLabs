@@ -89,7 +89,8 @@ bool check_on_zeros(char* data, int size){
 }
 
 float calc_func(char* data, int size){
-    char *buffer = malloc(sizeof(char) * 100);
+    int to_alloc = 100;
+    char *buffer = malloc(sizeof(char) * to_alloc);
     int j = 0;
     char ch;
     float first_number;
@@ -99,8 +100,12 @@ float calc_func(char* data, int size){
     for (int i = 0; i < size; i++){
         if (data[i] != '\0'){
             while ((ch = data[i]) != ' ' && ch != '\n' && ch != '\0') {
-                buffer[j++] = ch;
+                buffer[j] = ch;
+                j++;
                 i++;
+                if (i >= size){
+                    break;
+                }
             }
             if (flag == false){
                 sscanf(buffer, "%f", &first_number);
@@ -113,6 +118,9 @@ float calc_func(char* data, int size){
             j = 0;
             while (buffer[j] != '\0'){
                 buffer[j++] = ' ';
+                if (j >= to_alloc){
+                    break;
+                }
             }
             j = 0;
         }else{
